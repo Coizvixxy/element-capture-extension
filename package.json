@@ -1,0 +1,19 @@
+{
+  "name": "element-capture-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension to capture specific HTML elements from webpages",
+  "main": "content.js",
+  "scripts": {
+    "build": "echo 'Extension built successfully!'",
+    "install-icons": "open generate-icons.html"
+  },
+  "keywords": [
+    "chrome-extension",
+    "screenshot",
+    "element-capture",
+    "dom-capture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {}
+}

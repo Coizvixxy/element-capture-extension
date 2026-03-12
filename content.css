@@ -1,0 +1,34 @@
+/* Element Capture Content Script Styles */
+
+/* Prevent any interference with existing page styles */
+#element-capture-overlay,
+#element-capture-tooltip,
+.element-capture-notification {
+  all: initial;
+  position: fixed !important;
+  z-index: 2147483647 !important;
+}
+
+/* Ensure overlay is above everything */
+#element-capture-overlay {
+  pointer-events: none !important;
+}
+
+/* Smooth transitions for highlights */
+* {
+  transition: none !important;
+}
+
+/* Only animate our own elements */
+#element-capture-overlay,
+#element-capture-tooltip,
+.element-capture-notification {
+  transition: opacity 0.2s ease !important;
+}
+
+/* Remove any potentially conflicting styles */
+#element-capture-overlay *,
+#element-capture-tooltip *,
+.element-capture-notification * {
+  all: unset;
+}

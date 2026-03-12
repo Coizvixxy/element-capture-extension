@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Icons</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { color: #333; }
+    .icon-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    .icon-wrapper {
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover { transform: translateY(-2px); }
+    .download-btn {
+      background: #4caf50;
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Icon Generator for Element Capture</h1>
+  <p>Click the button below to generate all required icon sizes</p>
+
+  <button onclick="generateAllIcons()">Generate All Icons</button>
+
+  <div class="icon-container" id="iconContainer"></div>
+
+  <script>
+    const sizes = [16, 48, 128];
+
+    function generateAllIcons() {
+      const container = document.getElementById('iconContainer');
+      container.innerHTML = '';
+
+      sizes.forEach(size => {
+        // Create canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        // Draw gradient background
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#667eea');
+        gradient.addColorStop(1, '#764ba2');
+
+        // Draw rounded rectangle
+        const radius = size * 0.2;
+        ctx.beginPath();
+        ctx.moveTo(radius, 0);
+        ctx.lineTo(size - radius, 0);
+        ctx.quadraticCurveTo(size, 0, size, radius);
+        ctx.lineTo(size, size - radius);
+        ctx.quadraticCurveTo(size, size, size - radius, size);
+        ctx.lineTo(radius, size);
+        ctx.quadraticCurveTo(0, size, 0, size - radius);
+        ctx.lineTo(0, radius);
+        ctx.quadraticCurveTo(0, 0, radius, 0);
+        ctx.closePath();
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Draw document rectangle
+        const docX = size * 0.15;
+        const docY = size * 0.18;
+        const docW = size * 0.5;
+        const docH = size * 0.38;
+        const strokeWidth = Math.max(2, size / 40);
+
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = strokeWidth;
+        ctx.strokeRect(docX, docY, docW, docH);
+
+        // Draw lines in document
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        const lineHeight = size / 32;
+        const lineSpacing = size / 16;
+
+        for (let i = 0; i < 4; i++) {
+          const lineWidth = docW * (0.7 - i * 0.05);
+          ctx.fillRect(
+            docX + size * 0.08,
+            docY + size * 0.1 + i * lineSpacing,
+            lineWidth,
+            lineHeight
+          );
+        }
+
+        // Draw checkmark circle
+        const circleX = size * 0.65;
+        const circleY = size * 0.65;
+        const circleR = size * 0.16;
+
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(circleX, circleY, circleR, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw inner circle
+        ctx.fillStyle = '#667eea';
+        ctx.beginPath();
+        ctx.arc(circleX, circleY, circleR * 0.7, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw checkmark
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = strokeWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        const checkSize = circleR * 0.5;
+        ctx.moveTo(circleX - checkSize * 0.3, circleY);
+        ctx.lineTo(circleX - checkSize * 0.1, circleY + checkSize * 0.3);
+        ctx.lineTo(circleX + checkSize * 0.5, circleY - checkSize * 0.3);
+        ctx.stroke();
+
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'icon-wrapper';
+
+        const label = document.createElement('div');
+        label.textContent = `${size}x${size}`;
+        label.style.marginTop = '10px';
+        label.style.fontSize = '14px';
+        label.style.color = '#666';
+
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = `Download ${size}x${size}`;
+        downloadBtn.onclick = () => downloadIcon(canvas, size);
+
+        wrapper.appendChild(canvas);
+        wrapper.appendChild(label);
+        wrapper.appendChild(downloadBtn);
+        container.appendChild(wrapper);
+      });
+    }
+
+    function downloadIcon(canvas, size) {
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>

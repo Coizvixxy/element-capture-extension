@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Element Capture</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📷 Element Capture</h1>
+      <p class="subtitle">Capture any element from the current page</p>
+    </div>
+
+    <div class="instructions">
+      <h3>How to use:</h3>
+      <ol>
+        <li>Click "Start Capturing" below</li>
+        <li>Hover over any element on the page to highlight it</li>
+        <li>Click on the element you want to capture</li>
+        <li>The screenshot will be downloaded automatically</li>
+      </ol>
+    </div>
+
+    <div class="buttons">
+      <button id="startBtn" class="btn btn-primary">
+        <span class="btn-icon">🎯</span>
+        Start Capturing
+      </button>
+      <button id="cancelBtn" class="btn btn-secondary" style="display: none;">
+        <span class="btn-icon">❌</span>
+        Cancel
+      </button>
+    </div>
+
+    <div class="options">
+      <label class="option">
+        <input type="checkbox" id="copyToClipboard" checked>
+        <span>Copy to clipboard</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" id="downloadFile" checked>
+        <span>Download as file</span>
+      </label>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
