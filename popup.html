@@ -15,11 +15,17 @@
 
     <div class="instructions">
       <h3>How to use:</h3>
-      <ol>
-        <li>Click "Start Capturing" below</li>
+      <ol id="clickInstructions">
+        <li>Select "Click" mode</li>
+        <li>Click "Start Capturing"</li>
         <li>Hover over any element on the page to highlight it</li>
         <li>Click on the element you want to capture</li>
-        <li>The screenshot will be downloaded automatically</li>
+      </ol>
+      <ol id="boxInstructions" style="display: none;">
+        <li>Select "Multi Select" mode</li>
+        <li>Click "Start Capturing"</li>
+        <li>Click elements to select them (numbered 1, 2, 3...)</li>
+        <li>Press Enter or click "Done" to capture</li>
       </ol>
     </div>
 
@@ -35,6 +41,18 @@
     </div>
 
     <div class="options">
+      <div class="mode-selector">
+        <label class="mode-label">Capture Mode:</label>
+        <label class="mode-option">
+          <input type="radio" name="captureMode" value="click" checked>
+          <span>🖱️ Click</span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="captureMode" value="multi">
+          <span>🔢 Multi Select</span>
+        </label>
+      </div>
+
       <label class="option">
         <input type="checkbox" id="copyToClipboard" checked>
         <span>Copy to clipboard</span>

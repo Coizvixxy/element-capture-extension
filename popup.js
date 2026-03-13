@@ -7,11 +7,19 @@ const cancelBtn = document.getElementById('cancelBtn');
 const copyToClipboardCheckbox = document.getElementById('copyToClipboard');
 const downloadFileCheckbox = document.getElementById('downloadFile');
 const statusDiv = document.getElementById('status');
+const modeRadios = document.querySelectorAll('input[name="captureMode"]');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   startBtn.addEventListener('click', startCapturing);
   cancelBtn.addEventListener('click', stopCapturing);
+
+  // Mode change handler
+  modeRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      updateInstructions(e.target.value);
+    });
+  });
 
   // Check if already capturing (in case popup was reopened)
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -24,9 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function startCapturing() {
+  // Get selected mode
+  const selectedMode = Array.from(modeRadios).find(radio => radio.checked)?.value || 'click';
+
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, {
       action: 'startCapturing',
+      mode: selectedMode,
       options: {
         copyToClipboard: copyToClipboardCheckbox.checked,
         downloadFile: downloadFileCheckbox.checked
@@ -78,4 +90,17 @@ function showStatus(message, type = 'info') {
       statusDiv.className = 'status';
     }
   }, 3000);
+}
+
+function updateInstructions(mode) {
+  const clickInstructions = document.getElementById('clickInstructions');
+  const boxInstructions = document.getElementById('boxInstructions');
+
+  if (mode === 'box') {
+    clickInstructions.style.display = 'none';
+    boxInstructions.style.display = 'block';
+  } else {
+    clickInstructions.style.display = 'block';
+    boxInstructions.style.display = 'none';
+  }
 }
